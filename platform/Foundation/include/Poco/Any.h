@@ -18,6 +18,7 @@
 
 #include "Poco/Exception.h"
 #include "Poco/MetaProgramming.h"
+#include <Poco/TypeInfo.h>
 #include <algorithm>
 #include <typeinfo>
 #include <cstring>
@@ -260,13 +261,13 @@ public:
 		return 0 == std::memcmp(_valueHolder.holder, buf, POCO_SMALL_OBJECT_SIZE);
 	}
 	
-	const std::type_info & type() const
+	const TypeInfo type() const
 		/// Returns the type information of the stored content.
 		/// If the Any is empty typeid(void) is returned.
 		/// It is recommended to always query an Any for its type info before
 		/// trying to extract data via an AnyCast/RefAnyCast.
 	{
-		return empty() ? typeid(void) : content()->type();
+		return empty() ? TypeInfo(typeid(void)) : TypeInfo(content()->type());
 	}
 
 private:
@@ -414,13 +415,13 @@ private:
 		return !_pHolder;
 	}
 
-	const std::type_info& type() const
+	const TypeInfo type() const
 		/// Returns the type information of the stored content.
 		/// If the Any is empty typeid(void) is returned.
 		/// It is recommended to always query an Any for its type info before
 		/// trying to extract data via an AnyCast/RefAnyCast.
 	{
-		return _pHolder ? _pHolder->type() : typeid(void);
+		return _pHolder ? TypeInfo(_pHolder->type()) : TypeInfo(typeid(void));
 	}
 
 private:

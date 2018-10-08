@@ -23,7 +23,7 @@
 #include "Poco/SharedPtr.h"
 #include "Poco/Dynamic/VarHolder.h"
 #include "Poco/Dynamic/VarIterator.h"
-#include <typeinfo>
+#include "Poco/TypeInfo.h"
 
 
 namespace Poco {
@@ -474,7 +474,7 @@ public:
 		/// Index operator by name, only use on Vars where isStruct
 		/// returns true! In all other cases InvalidAccessException is thrown.
 
-	const std::type_info& type() const;
+	const TypeInfo type() const;
 		/// Returns the type information of the stored content.
 
 	//@ deprecated
@@ -716,10 +716,10 @@ inline void Var::swap(Var& other)
 }
 
 
-inline const std::type_info& Var::type() const
+inline const TypeInfo Var::type() const
 {
 	VarHolder* pHolder = content();
-	return pHolder ? pHolder->type() : typeid(void);
+	return pHolder ? TypeInfo(pHolder->type()) : TypeInfo(typeid(void));
 }
 
 
@@ -876,7 +876,6 @@ inline bool Var::isDateTime() const
 	VarHolder* pHolder = content();
 	return pHolder ? pHolder->isDateTime() : false;
 }
-
 
 inline std::size_t Var::size() const
 {

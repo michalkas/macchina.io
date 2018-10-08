@@ -424,7 +424,7 @@ void AbstractBinder::bind(std::size_t pos, const std::list<NullData>& val, Direc
 
 void AbstractBinder::bind(std::size_t pos, const Any& val, Direction dir)
 {
-	const std::type_info& type = val.type();
+	const TypeInfo type = val.type();
 
 	if(type == typeid(Int32))
 		bind(pos, RefAnyCast<Int32>(val), dir);
@@ -475,7 +475,7 @@ void AbstractBinder::bind(std::size_t pos, const Any& val, Direction dir)
 
 void AbstractBinder::bind(std::size_t pos, const Poco::Dynamic::Var& val, Direction dir)
 {
-	const std::type_info& type = val.type();
+	const TypeInfo type = val.type();
 
 	if(type == typeid(Int32))
 		bind(pos, val.extract<Int32>(), dir);
